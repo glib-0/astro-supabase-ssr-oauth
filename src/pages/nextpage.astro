@@ -9,7 +9,7 @@ import Layout from "@layouts/Layout.astro";
 		const dataElement = document.getElementById("selectedData");
 		dataElement.innerHTML = ``;
 		for (const obj of data) {
-			dataElement.innerHTML += `<li >id:${obj.id} created at:${obj.created_at} message:${obj.name}</li>`;
+			dataElement.innerHTML += `<li >id:${obj.id} created at:${obj.created_at} message:${obj.message}</li>`;
 		}
 	};
 	const handleInsertClick = async () => {
