@@ -15,17 +15,17 @@ I found integrating them a little confusing because of the conflicting guides in
 ```text
 /
 ├── src/
-│ 	├── components/
-│ 	│ 	└── MSSignIn.astro	 		// Microsoft's required sign in button
-│ 	├── layouts/
-│ 	│ 	└── Layout.astro
-│ 	└── pages/
-│ 		└── index.astro
-│ 		└── nextpage.astro  		// Callback redirects here if auth successful
-│ 		└── api/auth 				// Auth routes
-│ 				└── callback.ts 	// Route to redirect to after auth
-│ 				└── signin.ts
-│ 				└── signout.ts
+│   ├── components/
+│   │  └── MSSignIn.astro	 	// Microsoft's required sign in button
+│   ├── layouts/
+│   │  └── Layout.astro
+│   └── pages/
+│      └── index.astro
+│ 	   └── nextpage.astro  	// Callback redirects here if auth successful
+│      └── api/auth 				// Auth routes
+│ 		  └── callback.ts 	  // Route to redirect to after auth
+│ 		  └── signin.ts
+│ 		  └── signout.ts
 └── package.json
 └── astro.config.mjs 				// output must be 'server'
 └── .env
