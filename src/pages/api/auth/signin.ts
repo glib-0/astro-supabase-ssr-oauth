@@ -24,19 +24,21 @@ export const POST: APIRoute = async (context: APIContext) => {
 		}
 		return context.redirect(data.url);
 	}
+	// // Uncomment to add email/password auth
+	// const email = formData.get("email")?.toString();
+	// const password = formData.get("password")?.toString();
+	// if (!email || !password) {
+	// 	return new Response("Email and password are required", { status: 400 });
+	// }
 
-	if (!email || !password) {
-		return new Response("Email and password are required", { status: 400 });
-	}
-
-	const { data, error } = await supabase.auth.signInWithPassword({
-		email,
-		password,
-	});
-
-	if (error) {
-		return new Response(error.message, { status: 500 });
-	}
+	// const { data, error } = await supabase.auth.signInWithPassword({
+	// 	email,
+	// 	password,
+	// });
+	// console.log(data); // Do something with data so Vercel build doesn't throw errors
+	// if (error) {
+	// 	return new Response(error.message, { status: 500 });
+	// }
 
 	return context.redirect("/nextpage");
 };

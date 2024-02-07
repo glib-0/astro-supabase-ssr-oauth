@@ -18,6 +18,7 @@ import Layout from "@layouts/Layout.astro";
 			.from("test")
 			.insert({ message: newEntry });
 		handleReadClick();
+		if (error) console.error(error);
 	};
 	document.getElementById("read").addEventListener("click", handleReadClick);
 	document
