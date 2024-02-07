@@ -3,8 +3,6 @@ import type { Provider } from "@supabase/supabase-js";
 import { createClient } from "src/lib/server";
 export const POST: APIRoute = async (context: APIContext) => {
 	const formData = await context.request.formData();
-	const email = formData.get("email")?.toString();
-	const password = formData.get("password")?.toString();
 	const provider = formData.get("provider")?.toString();
 	const supabase = createClient(context);
 	if (provider) {
