@@ -26,11 +26,32 @@ import Layout from "@layouts/Layout.astro";
 </script>
 <Layout title="next page">
 	<main class="flex flex-col items-center mx-auto p-2 w-1/2">
+		<button
+			class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-10 my-2 shadow-lg rounded-lg border-2 border-blue-800"
+			id="read">Click here to select from db table</button
+		>
+		<div
+			class="w-1/2 h-max my-2 bg-gray-400 p-2 dark:text-white dark:bg-slate-800 rounded-md">
+			<ul style="list-style-type:circle" id="selectedData">
+				data will be returned here
+			</ul>
+		</div>
+		<input
+			id="insertString"
+			class="bg-white w-1/2 border-2 rounded-md p-2 my-2"
+			placeholder="write something here to insert"
+		/>
+		<button
+			id="insert"
+			class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit my-2 p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800"
+			>Click here to insert to db table</button
+		>
+
 		<form action="/api/auth/signout">
 			<h1>
 				<button
 					type="submit"
-					class="bg-blue-400 w-20 h-10 shadow-lg rounded-lg border-2 border-blue-800"
+					class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800 my-2"
 					>Sign out</button
 				>
 			</h1>
