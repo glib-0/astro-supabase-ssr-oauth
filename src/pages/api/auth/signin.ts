@@ -20,6 +20,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 		if (error) {
 			return new Response(error.message, { status: 500 });
 		}
+		console.log("redirect url", data.url);
 		return context.redirect(data.url);
 	}
 	// // Uncomment to add email/password auth
