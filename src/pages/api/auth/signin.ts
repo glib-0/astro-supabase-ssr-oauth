@@ -15,7 +15,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 				scopes: "email profile https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Calendars.ReadWrite https://graph.microsoft.com/User.Read",
 				redirectTo: import.meta.env.DEV
 					? "http://localhost:4321/api/auth/callback"
-					: "https://min-astro-auth.vercel.app/api/auth/callback",
+					: "https://astro-supabase-ssr-oauth.app/api/auth/callback",
 			},
 		});
 
