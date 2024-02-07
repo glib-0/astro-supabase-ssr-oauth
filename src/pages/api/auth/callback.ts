@@ -5,7 +5,6 @@ export const GET: APIRoute = async (context: APIContext) => {
 	const requestUrl = new URL(context.request.url);
 	console.log("requestUrl", requestUrl);
 	const code = requestUrl.searchParams.get("code");
-	const next = requestUrl.searchParams.get("next") || "/nextpage";
 
 	if (code) {
 		const supabase = createClient(context);
@@ -13,7 +12,7 @@ export const GET: APIRoute = async (context: APIContext) => {
 		const { error } = await supabase.auth.exchangeCodeForSession(code);
 
 		if (!error) {
-			return context.redirect(next);
+			return context.redirect("/nextpage");
 		}
 	}
 
