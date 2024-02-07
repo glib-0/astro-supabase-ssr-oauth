@@ -1,4 +1,4 @@
-import { createClient } from "./server";
+import { createClient } from "@lib/server";
 import type { APIContext } from "astro";
 export const getSession = async (context: APIContext) => {
 	const supabase = createClient(context);
