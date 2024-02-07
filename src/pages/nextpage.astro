@@ -2,6 +2,28 @@
 import Layout from "@layouts/Layout.astro";
 ---
 
+<script>
+	import { supabase } from "@lib/client";
+	const handleReadClick = async () => {
+		const { data } = await supabase.from("test").select("*");
+		const dataElement = document.getElementById("selectedData");
+		dataElement.innerHTML = ``;
+		for (const obj of data) {
+			dataElement.innerHTML += `<li >id:${obj.id} created at:${obj.created_at} message:${obj.name}</li>`;
+		}
+	};
+	const handleInsertClick = async () => {
+		const newEntry = document.getElementById("insertString");
+		const { error } = await supabase
+			.from("test")
+			.insert({ message: newEntry });
+		handleReadClick();
+	};
+	document.getElementById("read").addEventListener("click", handleReadClick);
+	document
+		.getElementById("insert")
+		.addEventListener("click", handleInsertClick);
+</script>
 <Layout title="next page">
 	<main class="flex flex-col items-center mx-auto p-2 w-1/2">
 		<form action="/api/auth/signout">
