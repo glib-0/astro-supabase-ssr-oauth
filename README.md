@@ -1,54 +1,70 @@
-# Astro Starter Kit: Basics
+# Astro + Supabase SSR OAuth
 
-```sh
-npm create astro@latest -- --template basics
-```
+This is a minimal starter kit to help integrate Astro with Supabase's new SSR package. I used Azure as the OAuth provider.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+This is pure Astro with no front-end framework.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Why?
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+The Astro docs use the older Supabase client library, which uses cookies in the client browser to store the access token. You have to pass the token to Supabase every time you create a client to access tables restricted to authenticated users. The Supabase SSR package does server-side auth to handle this for you, so the client browser never sees the tokens.
 
-## 🚀 Project Structure
+I found integrating them a little confusing because of the conflicting guides in the docs, so I hope this helps clear things up for you if you're having trouble.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project Setup
 
-```text
 /
-├── public/
-│   └── favicon.svg
 ├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
+│ ├── components/
+│ │ └── MSSignIn.astro `Microsoft's required sign in button`
+│ ├── layouts/
+│ │ └── Layout.astro
+│ └── pages/
+│ └── index.astro
+│ └── nextpage.astro `Callback redirects here if auth successful`
+│ └── api/auth `Auth routes`
+│ └── callback.ts `Route to redirect to after auth`
+│ └── signin.ts
+│ └── signout.ts
 └── package.json
+└── astro.config.mjs `output must be 'server'`
+└── .env
+
+-   Make your own .env file containing your Supabase anon API key and Supabase URL from Dashboard>Settings>API:
+
+    -   The `PUBLIC` prefix is necessary for Astro and React components. Other frameworks may have different prefix requirements.
+
+```
+PUBLIC_SUPABASE_URL=https://<your-supabase-url>.supabase.co
+PUBLIC_SUPABASE_ANON_KEY=<apikey>
+PUBLIC_VERCEL_URL=http://localhost:4321
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## ⚡ Supabase setup
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+-   Create a free Supabase account and start a new project
+-   Go to the **Database** tab in the sidebar and create a table named `test`.
+    -   Add a column `message` with type `text` and click **Save**.
+-   In the **Authentication** tab, click on _Policies_ and add a new policy.
+    -   Use the 'Enable read access to everyone template'
+    -   Change the name to something like 'Enable access for authenticated users'
+    -   Change the _Allowed operation_ to `ALL`, and the _Target roles_ to `authenticated`
+    -   Leave the `USING` expression as `true`, and save the policy.
+-   Still in **Authentication**, click on _Providers_ and enable your provider of choice.
+    -   Follow this guide in the [Supabase docs](https://supabase.com/docs/guides/auth/social-login) to set up Azure or another OAuth provider. Note that you will need the Callback URL from here to setup the provider
+    -   For Azure setup the Platform config as a Web app rather than an SPA, otherwise the PKCE flow won't work.
+-   Click on _URL Configuration_
+    -   Set the _Site URL_ to `http://localhost:4321/` if you are using the default Astro dev port. Note the trailing forward slash, apparently it's important. I didn't test that.
+    -   If you are deploying to something like Vercel, set the _Site URL_ as `https://<your-vercel-project>.app/` and add `http://localhost:4321/**` as a _Redirect URL_ so you can continue working with your dev environment.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 🔺 Vercel setup (Optional)
 
-## 🧞 Commands
+-   Create new Vercel project and attach your repo from Github.
+-   Use the deployment URL as your _Site URL_ above.
+-   You can also set additional _Redirect URLs_ with wildcards to cover deployment-specific URLs
+-   Under **Settings**, click on _Environment Variables_ and copy and paste the content of your .env file into the Key Value inputs under _Create new_. You can paste the whole thing at once and Vercel will parse it for you, or upload the .env file you made.
+    -   Change the value of `PUBLIC_VERCEL_URL` to `https://<your-project-name>.vercel.app`
+    -   Even though Vercel exposes `VERCEL_URL` as a system environment variable, it does not seem to prefix it with `PUBLIC` for use by Astro.
+-   Redeploy after you change the environment variables.
+-   If you try to visit your deployment on another device, you'll need to disable _Vercel authentication_ under _Deployment Protection_ in the Settings
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 🚀 Good to go!
