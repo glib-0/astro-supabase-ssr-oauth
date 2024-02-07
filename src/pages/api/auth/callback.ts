@@ -16,6 +16,5 @@ export const GET: APIRoute = async (context: APIContext) => {
 		}
 	}
 
-	// return the user to an error page with instructions
-	return context.redirect("/auth/auth-code-error");
+	return context.redirect("/"); //redirects back to index on auth failure
 };
