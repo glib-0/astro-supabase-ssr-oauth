@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "@astrojs/tailwind": "^5.1.0",
-    "@astrojs/vercel": "^6.1.0",
+    "@astrojs/vercel": "^6.0.1",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.3",
     "astro": "^4.3.3",

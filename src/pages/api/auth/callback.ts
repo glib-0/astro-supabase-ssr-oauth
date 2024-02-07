@@ -3,6 +3,7 @@ import { type APIContext, type APIRoute } from "astro";
 
 export const GET: APIRoute = async (context: APIContext) => {
 	const requestUrl = new URL(context.request.url);
+	console.log("requestUrl", requestUrl);
 	const code = requestUrl.searchParams.get("code");
 	const next = requestUrl.searchParams.get("next") || "/nextpage";
 
