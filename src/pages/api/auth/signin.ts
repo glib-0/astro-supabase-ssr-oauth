@@ -13,9 +13,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 				scopes: "email profile", // change the scopes depending on what permissions you need from the user
 				redirectTo: import.meta.env.DEV
 					? "http://localhost:4321/api/auth/callback"
-					: `https://${
-							import.meta.env.PUBLIC_VERCEL_URL
-					  }/api/auth/callback`,
+					: `${import.meta.env.PUBLIC_VERCEL_URL}/api/auth/callback`,
 			},
 		});
 
