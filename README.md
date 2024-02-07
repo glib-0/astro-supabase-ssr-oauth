@@ -1,8 +1,8 @@
 # Astro + Supabase SSR OAuth
 
-This is a minimal starter kit to help integrate Astro with Supabase's new SSR package. I used Azure as the OAuth provider.
+This is a minimal starter kit to help integrate Astro with Supabase's new SSR package for Auth. I used Azure as the OAuth provider.
 
-This is pure Astro with no front-end framework.
+Pure Astro with no front-end framework. Also includes minimal Supabase query example.
 
 ### Why?
 
@@ -66,5 +66,9 @@ PUBLIC_VERCEL_URL=http://localhost:4321
     -   Even though Vercel exposes `VERCEL_URL` as a system environment variable, it does not seem to prefix it with `PUBLIC` for use by Astro.
 -   Redeploy after you change the environment variables.
 -   If you try to visit your deployment on another device, you'll need to disable _Vercel authentication_ under _Deployment Protection_ in the Settings
+
+### Auth issues with Vercel deployments
+
+-   If you've missed anything above, the provider redirect will not work and you'll either get redirected to your localhost or the index page. I think Google OAuth requires you to add your deployment URL (the `PUBLIC_VERCEL_URL`) to Authorized redirect URIs in your Google Cloud Console.
 
 ## 🚀 Good to go!
