@@ -10,7 +10,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 			provider: provider as Provider,
 
 			options: {
-				scopes: "email profile https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Calendars.ReadWrite https://graph.microsoft.com/User.Read",
+				scopes: "email profile", // change the scopes depending on what permissions you need from the user
 				redirectTo: import.meta.env.DEV
 					? "http://localhost:4321/api/auth/callback"
 					: `https://${
