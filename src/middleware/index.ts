@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro/middleware";
-import { supabase } from "@lib/client";
+import { createClient } from "@lib/server";
 import micromatch from "micromatch";
 import type { APIContext } from "astro";
 import { getSession } from "@lib/auth.utils";
@@ -8,13 +8,14 @@ const redirectRoutes = ["/"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next) => {
 	console.log("middleware triggered");
+	const supabase = createClient(context);
 	const { data, error: userError } = await supabase.auth.getUser();
-	console.log(userError.status);
+	console.log(data, userError);
 	const session = await getSession(context);
 	const accessToken = session?.access_token;
 	const refreshToken = session?.refresh_token;
 	if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
-		if (userError.status === 401) {
+		if (userError?.status === 401) {
 			return context.redirect("/");
 		}
 		if (!accessToken || !refreshToken) {
