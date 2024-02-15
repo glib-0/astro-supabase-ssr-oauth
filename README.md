@@ -57,7 +57,13 @@ PUBLIC_VERCEL_URL=http://localhost:4321
 -   Click on _URL Configuration_
     -   Set the _Site URL_ to `http://localhost:4321/` if you are using the default Astro dev port. Note the trailing forward slash, apparently it's important. I didn't test that.
     -   If you are deploying to something like Vercel, set the _Site URL_ as `https://<your-vercel-project>.app/` and add `http://localhost:4321/**` as a _Redirect URL_ so you can continue working with your dev environment.
+ 
+### Supabase RLS issues
 
+- When you create your tables and turn on RLS, make sure you create access policies under **Authentication** > _Policies_
+- If you are setting target roles to `authenticated`, you must set a SELECT policy for the INSERT policy to work.
+- If you are setting target roles to `authenticated` and still getting RLS violation errors, make sure you are only querying using the Supabase client you create with `createBrowserClient`. Once you pass data through to your backend **it cannot find your user's session** and the Supabase client will not pass the auth token allowing access to table restricted to the `authenticated` role. I am not entirely sure if this is the correct way to do things. Supabase SSR is very new and the docs are not clear.
+ 
 ## 🔺 Vercel setup (Optional)
 
 -   Create new Vercel project and attach your repo from Github.
