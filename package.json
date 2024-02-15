@@ -16,8 +16,12 @@
     "@supabase/gotrue-js": "^2.62.2",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.3",
-    "astro": "^4.3.3",
+    "astro": "^4.2.3",
+    "micromatch": "^4.0.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/micromatch": "^4.0.6"
   }
 }
