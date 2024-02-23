@@ -6,9 +6,7 @@ Pure Astro with no front-end framework. Also includes minimal Supabase query exa
 
 ### Why?
 
-The Astro docs use the older Supabase client library, which uses cookies in the client browser to store the access token. You have to pass the token to Supabase every time you create a client to access tables restricted to authenticated users. The Supabase SSR package does server-side auth to handle this for you, so the client browser never sees the tokens.
-
-I found integrating them a little confusing because of the conflicting guides in the docs, so I hope this helps clear things up for you if you're having trouble.
+The Astro docs use the older Supabase client library. I found integrating them a little confusing because of the conflicting guides in the docs, so I hope this helps clear things up for you if you're having trouble.
 
 ## Project Setup
 
@@ -73,7 +71,6 @@ PUBLIC_VERCEL_URL=http://localhost:4321
     -   Change the value of `PUBLIC_VERCEL_URL` to `https://<your-project-name>.vercel.app`
     -   Even though Vercel exposes `VERCEL_URL` as a system environment variable, it does not seem to prefix it with `PUBLIC` for use by Astro.
 -   Redeploy after you change the environment variables.
--   If you try to visit your deployment on another device, you'll need to disable _Vercel authentication_ under _Deployment Protection_ in the Settings
 
 ### Auth issues with Vercel deployments
 
