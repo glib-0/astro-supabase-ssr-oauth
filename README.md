@@ -17,6 +17,8 @@ The Astro docs use the older Supabase client library. I found integrating them a
 │   │  └── MSSignIn.astro	 	// Microsoft's required sign in button
 │   ├── layouts/
 │   │  └── Layout.astro
+│   ├── middleware/
+│   │  └── index.ts         
 │   └── pages/
 │      └── index.astro
 │ 	   └── nextpage.astro  	// Callback redirects here if auth successful
