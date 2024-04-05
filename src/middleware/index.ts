@@ -18,11 +18,12 @@ export const onRequest = defineMiddleware(async (context: APIContext, next) => {
   const providerRefreshToken = session?.provider_refresh_token;
   if (session && providerToken) {
     context.cookies.set("provider_token", providerToken, { path: "/" });
+  }
+  if (session && providerRefreshToken) {
     context.cookies.set("provider_refresh_token", providerRefreshToken, {
       path: "/",
     });
   }
-
   if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
     if (userError?.status === 401) {
       return context.redirect("/");
