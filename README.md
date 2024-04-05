@@ -6,9 +6,7 @@ Pure Astro with no front-end framework. Also includes minimal Supabase query exa
 
 ### Why?
 
-The Astro docs use the older Supabase client library, which uses cookies in the client browser to store the access token. You have to pass the token to Supabase every time you create a client to access tables restricted to authenticated users. The Supabase SSR package does server-side auth to handle this for you, so the client browser never sees the tokens.
-
-I found integrating them a little confusing because of the conflicting guides in the docs, so I hope this helps clear things up for you if you're having trouble.
+The Astro docs use the older Supabase client library. I found integrating them a little confusing because of the conflicting guides in the docs, so I hope this helps clear things up for you if you're having trouble.
 
 ## Project Setup
 
@@ -19,6 +17,8 @@ I found integrating them a little confusing because of the conflicting guides in
 │   │  └── MSSignIn.astro	 	// Microsoft's required sign in button
 │   ├── layouts/
 │   │  └── Layout.astro
+│   ├── middleware/
+│   │  └── index.ts         
 │   └── pages/
 │      └── index.astro
 │ 	   └── nextpage.astro  	// Callback redirects here if auth successful
@@ -62,7 +62,7 @@ PUBLIC_VERCEL_URL=http://localhost:4321
 
 - When you create your tables and turn on RLS, make sure you create access policies under **Authentication** > _Policies_
 - If you are setting target roles to `authenticated`, you must set a SELECT policy for the INSERT policy to work.
-- If you are setting target roles to `authenticated` and still getting RLS violation errors, make sure you are only querying using the Supabase client you create with `createBrowserClient`. Once you pass data through to your backend it doesn't seem to be able to find the user session (?) and the Supabase client will not pass the auth token allowing access to table restricted to the `authenticated` role. I am not entirely sure if this is the correct way to do things. Supabase SSR docs are not very clear to me and there seems to be a lot of assumed knowledge.
+- If you are setting target roles to `authenticated` and still getting RLS violation errors, make sure if you are querying using the Supabase client you create with `createServerClient`, in your API, say, that you pass the `context` object to it so it has the user's session. 
  
 ## 🔺 Vercel setup (Optional)
 
@@ -73,13 +73,12 @@ PUBLIC_VERCEL_URL=http://localhost:4321
     -   Change the value of `PUBLIC_VERCEL_URL` to `https://<your-project-name>.vercel.app`
     -   Even though Vercel exposes `VERCEL_URL` as a system environment variable, it does not seem to prefix it with `PUBLIC` for use by Astro.
 -   Redeploy after you change the environment variables.
--   If you try to visit your deployment on another device, you'll need to disable _Vercel authentication_ under _Deployment Protection_ in the Settings
 
 ### Auth issues with Vercel deployments
 
 -   If you've missed anything above, the provider redirect will not work and you'll either get redirected to your localhost or the index page. I think Google OAuth requires you to add your deployment URL (the `PUBLIC_VERCEL_URL`) to Authorized redirect URIs in your Google Cloud Console.
 
-#### Other little annoyances I encountered
-- When I installed @types/micromatch as a dependency instead of a dev dependency and forgot to install actual micromatch, typing `import micromatch from "micromatch"` appeared to work but it failed silently and middleware never got triggered.
+#### Other weird things I encountered
+- When I installed @types/micromatch as a dependency instead of a dev dependency and forgot to install micromatch itself, typing `import micromatch from "micromatch"` appeared to work but it failed silently and middleware never got triggered. I tried to minimally reproduce this behaviour, but was unable to - the middleware either worked or Astro threw a module not found build error.
 
 ## 🚀 Good to go!
