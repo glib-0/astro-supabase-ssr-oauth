@@ -23,7 +23,7 @@ import Layout from "@layouts/Layout.astro";
     .getElementById("insert")
     .addEventListener("click", handleInsertClick);
   console.log(
-    document.cookie.split(";").map((v) => {
+    document.cookie.split(";")?.map((v) => {
       return { [v.split("=")[0]]: v.split("=")[1] };
     })
   );
