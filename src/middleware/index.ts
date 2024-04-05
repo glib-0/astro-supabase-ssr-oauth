@@ -7,36 +7,45 @@ const protectedRoutes = ["/nextpage(|/*)"];
 const redirectRoutes = ["/"];
 
 export const onRequest = defineMiddleware(async (context: APIContext, next) => {
-	console.log("middleware triggered");
-	const supabase = createClient(context);
-	const { data, error: userError } = await supabase.auth.getUser();
-	console.log(data, userError);
-	const session = await getSession(context);
-	const accessToken = session?.access_token;
-	const refreshToken = session?.refresh_token;
-	if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
-		if (userError?.status === 401) {
-			return context.redirect("/");
-		}
-		if (!accessToken || !refreshToken) {
-			return context.redirect("/");
-		}
+  console.log("middleware triggered");
+  const supabase = createClient(context);
+  const { data, error: userError } = await supabase.auth.getUser();
 
-		const { data, error: sessionError } = await supabase.auth.setSession({
-			refresh_token: refreshToken,
-			access_token: accessToken,
-		});
-		if (sessionError) {
-			await supabase.auth.signOut();
-			return context.redirect("/");
-		}
-	}
+  const session = await getSession(context);
+  const accessToken = session?.access_token;
+  const refreshToken = session?.refresh_token;
+  const providerToken = session?.providerToken;
+  const providerRefreshToken = session?.providerRefreshToken;
+  if (session && providerToken) {
+    context.cookies.set("provider_token", providerToken, { path: "/" });
+    context.cookies.set("provider_refresh_token", providerRefreshToken, {
+      path: "/",
+    });
+  }
 
-	if (micromatch.isMatch(context.url.pathname, redirectRoutes)) {
-		if (accessToken && refreshToken) {
-			return context.redirect("/nextpage");
-		}
-	}
-	const response = await next();
-	return response;
+  if (micromatch.isMatch(context.url.pathname, protectedRoutes)) {
+    if (userError?.status === 401) {
+      return context.redirect("/");
+    }
+    if (!accessToken || !refreshToken) {
+      return context.redirect("/");
+    }
+
+    const { data, error: sessionError } = await supabase.auth.setSession({
+      refresh_token: refreshToken,
+      access_token: accessToken,
+    });
+    if (sessionError) {
+      await supabase.auth.signOut();
+      return context.redirect("/");
+    }
+  }
+
+  if (micromatch.isMatch(context.url.pathname, redirectRoutes)) {
+    if (accessToken && refreshToken) {
+      return context.redirect("/nextpage");
+    }
+  }
+  const response = await next();
+  return response;
 });

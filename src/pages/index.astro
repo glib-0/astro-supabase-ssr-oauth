@@ -4,15 +4,26 @@ import MSSignIn from "@components/MSSignIn.astro";
 ---
 
 <Layout title="Astro + Supabase SSR OAuth">
-	<main class="w-full">
-		<form
-			class="mx-auto w-1/2 flex flex-col items-center"
-			action="/api/auth/signin"
-			method="post">
-			<h1 class="p-8">
-				<span class="text-zinc-300">Sign in with Azure</span>
-			</h1>
-			<MSSignIn />
-		</form>
-	</main>
+  <main class="w-full">
+    <form
+      class="mx-auto w-1/2 flex flex-col items-center"
+      action="/api/auth/signin"
+      method="post"
+    >
+      <h1 class="p-8">
+        <span class="text-zinc-300">Sign in with Azure</span>
+      </h1>
+      <MSSignIn />
+    </form>
+    <form
+      class="mx-auto w-1/2 flex flex-col items-center"
+      action="/api/auth/signin?scope=offline_access"
+      method="post"
+    >
+      <h1 class="p-8">
+        <span class="text-zinc-300">Sign in + Offline Accesss scope</span>
+      </h1>
+      <MSSignIn />
+    </form>
+  </main>
 </Layout>

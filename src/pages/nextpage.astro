@@ -3,59 +3,63 @@ import Layout from "@layouts/Layout.astro";
 ---
 
 <script>
-	import { supabase } from "@lib/client";
-	const handleReadClick = async () => {
-		const { data } = await supabase.from("test").select("*");
-		const dataElement = document.getElementById("selectedData");
-		dataElement.innerHTML = ``;
-		for (const obj of data) {
-			dataElement.innerHTML += `<li >id:${obj.id} created at:${obj.created_at} message:${obj.message}</li>`;
-		}
-	};
-	const handleInsertClick = async () => {
-		const newEntry = document.getElementById("insertString");
-		const { error } = await supabase
-			.from("test")
-			.insert({ message: newEntry });
-		handleReadClick();
-		if (error) console.error(error);
-	};
-	document.getElementById("read").addEventListener("click", handleReadClick);
-	document
-		.getElementById("insert")
-		.addEventListener("click", handleInsertClick);
+  import { supabase } from "@lib/client";
+  const handleReadClick = async () => {
+    const { data } = await supabase.from("test").select("*");
+    const dataElement = document.getElementById("selectedData");
+    dataElement.innerHTML = ``;
+    for (const obj of data) {
+      dataElement.innerHTML += `<li >id:${obj.id} created at:${obj.created_at} message:${obj.message}</li>`;
+    }
+  };
+  const handleInsertClick = async () => {
+    const newEntry = document.getElementById("insertString");
+    const { error } = await supabase.from("test").insert({ message: newEntry });
+    handleReadClick();
+    if (error) console.error(error);
+  };
+  document.getElementById("read").addEventListener("click", handleReadClick);
+  document
+    .getElementById("insert")
+    .addEventListener("click", handleInsertClick);
+  console.log(
+    document.cookie.split(";").map((v) => {
+      return { [v.split("=")[0]]: v.split("=")[1] };
+    })
+  );
 </script>
 <Layout title="next page">
-	<main class="flex flex-col items-center mx-auto p-2 w-1/2">
-		<button
-			class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-10 my-2 shadow-lg rounded-lg border-2 border-blue-800"
-			id="read">Click here to select from db table</button
-		>
-		<div
-			class="w-1/2 h-max my-2 bg-gray-400 p-2 dark:text-white dark:bg-slate-800 rounded-md">
-			<ul style="list-style-type:circle" id="selectedData">
-				data will be returned here
-			</ul>
-		</div>
-		<input
-			id="insertString"
-			class="bg-white w-1/2 border-2 rounded-md p-2 my-2"
-			placeholder="write something here to insert"
-		/>
-		<button
-			id="insert"
-			class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit my-2 p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800"
-			>Click here to insert to db table</button
-		>
+  <main class="flex flex-col items-center mx-auto p-2 w-1/2">
+    <button
+      class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-10 my-2 shadow-lg rounded-lg border-2 border-blue-800"
+      id="read">Click here to select from db table</button
+    >
+    <div
+      class="w-1/2 h-max my-2 bg-gray-400 p-2 dark:text-white dark:bg-slate-800 rounded-md"
+    >
+      <ul style="list-style-type:circle" id="selectedData">
+        data will be returned here
+      </ul>
+    </div>
+    <input
+      id="insertString"
+      class="bg-white w-1/2 border-2 rounded-md p-2 my-2"
+      placeholder="write something here to insert"
+    />
+    <button
+      id="insert"
+      class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit my-2 p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800"
+      >Click here to insert to db table</button
+    >
 
-		<form action="/api/auth/signout">
-			<h1>
-				<button
-					type="submit"
-					class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800 my-2"
-					>Sign out</button
-				>
-			</h1>
-		</form>
-	</main>
+    <form action="/api/auth/signout">
+      <h1>
+        <button
+          type="submit"
+          class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800 my-2"
+          >Sign out</button
+        >
+      </h1>
+    </form>
+  </main>
 </Layout>
