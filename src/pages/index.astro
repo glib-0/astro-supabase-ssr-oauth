@@ -1,9 +1,34 @@
----
-import Layout from "@layouts/Layout.astro";
-import MSSignIn from "@components/MSSignIn.astro";
----
+<!doctype html>
+<html lang="en" class="h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Minimal Supabase Login</title>
+  </head>
+  <body class="h-full bg-zinc-900">
+    <slot />
+  </body>
+</html>
 
-<Layout title="Astro + Supabase SSR OAuth">
+<!-- <script>
+  import { supabase } from "@lib/client";
+  import type { Provider } from "@supabase/supabase-js";
+  const provider = "azure";
+  const additionalScope = "offline_access";
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: provider as Provider,
+
+    options: {
+      scopes: `email profile ${additionalScope ?? ""}`.trimEnd(), // change the scopes depending on what permissions you need from the user
+      redirectTo: import.meta.env.DEV
+        ? "http://localhost:4321/api/auth/callback"
+        : `${import.meta.env.PUBLIC_VERCEL_URL}/api/auth/callback`,
+    },
+  });
+</script> -->
   <main class="w-full">
     <form
       class="mx-auto w-1/2 flex flex-col items-center"
@@ -13,7 +38,7 @@ import MSSignIn from "@components/MSSignIn.astro";
       <h1 class="p-8">
         <span class="text-zinc-300">Sign in with Azure</span>
       </h1>
-      <MSSignIn />
+      <button>Login</button>
     </form>
     <form
       class="mx-auto w-1/2 flex flex-col items-center"
@@ -21,9 +46,8 @@ import MSSignIn from "@components/MSSignIn.astro";
       method="post"
     >
       <h1 class="p-8">
-        <span class="text-zinc-300">Sign in + Offline Accesss scope</span>
+        <span class="text-zinc-300">Sign in + Offline Access scope</span>
       </h1>
-      <MSSignIn />
+      <button>Login with extra scope</button>
     </form>
   </main>
-</Layout>
