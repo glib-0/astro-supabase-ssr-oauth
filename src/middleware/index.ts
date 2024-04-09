@@ -16,6 +16,7 @@ export const onRequest = defineMiddleware(async (context: APIContext, next) => {
   const refreshToken = session?.refresh_token;
   const providerToken = session?.provider_token;
   const providerRefreshToken = session?.provider_refresh_token;
+
   if (session && providerToken) {
     context.cookies.set("provider_token", providerToken, { path: "/" });
   }

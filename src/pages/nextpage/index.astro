@@ -1,0 +1,45 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Document</title>
+    <script is:inline>
+      const listHTML = document.cookie
+        .split(";")
+        .map(
+          (c) => `<li class=" h-20 overflow-clip ">
+            <span class="text-red-500 font-bold text-sm break-all w-full">${c.split("=")[0].trim()}:</span>
+            <span class="text-black text-sm break-all w-full p-4">${c.split("=")[1]}</span>
+          </li>`
+        )
+        .join("");
+      window.onload = () => {
+        const listElement = document.getElementById("list");
+        listElement.innerHTML = listHTML;
+      };
+    </script>
+  </head>
+  <body>
+    <main class="flex flex-col items-center mx-auto p-2 w-1/2">
+      <div class="text-center font-bold font-mono text-xl">
+        Cookies present onload
+        <ul id="list"></ul>
+      </div>
+      <a
+        href="/nextpage/next"
+        class="text-red-500 text-2xl m-2 p-1 font-bold font-mono outline outline-red-500 rounded"
+        >Go to next next page</a
+      >
+      <form action="/api/auth/signout">
+        <h1>
+          <button
+            type="submit"
+            class="bg-blue-400 dark:bg-blue-900 dark:text-gray-200 w-fit p-2 h-fit shadow-lg rounded-lg border-2 border-blue-800 my-2"
+            >Sign out</button
+          >
+        </h1>
+      </form>
+    </main>
+  </body>
+</html>

@@ -43,15 +43,16 @@ import MSSignIn from "@components/MSSignIn.astro";
       <span class="text-zinc-300">Sign in with Azure</span>
     </h1>
     <MSSignIn />
-    <form
-      class="mx-auto w-1/2 flex flex-col items-center"
-      action="/api/auth/signin?scope=offline_access"
-      method="post"
-    >
-      <h1 class="p-8">
-        <span class="text-zinc-300">Sign in + Offline Access scope</span>
-      </h1>
-      <MSSignIn />
-    </form>
+  </form>
+
+  <form
+    class="mx-auto w-1/2 flex flex-col items-center"
+    action="/api/auth/signin?scope=offline_access"
+    method="post"
+  >
+    <h1 class="p-8">
+      <span class="text-zinc-300">Sign in + Offline Access scope</span>
+    </h1>
+    <MSSignIn />
   </form>
 </main>
