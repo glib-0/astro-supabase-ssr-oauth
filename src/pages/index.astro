@@ -1,3 +1,7 @@
+---
+import MSSignIn from "@components/MSSignIn.astro";
+---
+
 <!doctype html>
 <html lang="en" class="h-screen">
   <head>
@@ -29,17 +33,16 @@
     },
   });
 </script> -->
-  <main class="w-full">
-    <form
-      class="mx-auto w-1/2 flex flex-col items-center"
-      action="/api/auth/signin"
-      method="post"
-    >
-      <h1 class="p-8">
-        <span class="text-zinc-300">Sign in with Azure</span>
-      </h1>
-      <button>Login</button>
-    </form>
+<main class="w-full">
+  <form
+    class="mx-auto w-1/2 flex flex-col items-center"
+    action="/api/auth/signin"
+    method="post"
+  >
+    <h1 class="p-8">
+      <span class="text-zinc-300">Sign in with Azure</span>
+    </h1>
+    <MSSignIn />
     <form
       class="mx-auto w-1/2 flex flex-col items-center"
       action="/api/auth/signin?scope=offline_access"
@@ -48,6 +51,7 @@
       <h1 class="p-8">
         <span class="text-zinc-300">Sign in + Offline Access scope</span>
       </h1>
-      <button>Login with extra scope</button>
+      <MSSignIn />
     </form>
-  </main>
+  </form>
+</main>
